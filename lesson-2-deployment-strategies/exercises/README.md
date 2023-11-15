@@ -1,12 +1,59 @@
+## Optional Run visual support
+
+```shell
+# kubectl create namespace udacity
+cd starter
+kubectl apply -f visual-support/ops-view.yml
+
+# Verify
+kubectl get svc
+# kubectl get services -n udacity
+# should see
+# kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   70m
+```
+
+Debug:
+
+```shell
+kubectl config get-contexts
+kubectl get deployments -n udacity
+kubectl logs -n udacity ops-view
+kubectl get pods
+#kubectl get pods -n udacity
+kubectl get events -n udacity --sort-by='.metadata.creationTimestamp'
+```
+
+Visit the URL http://localhost:30092/ on your browser
+
 ## Excercise # 1 - Basic Deployment
 1. Ensure you have connectivity to your local kubernetes cluster
-2. Apply the `basic-deployment.yml` deployment configuration file. 
+2. Apply the `basic-deployment.yml` deployment configuration file.
+
+```sh
+kubectl apply -f basic-deployment.yml
+# deployment.apps/nginx-basic created
+# verify
+kubectl get deployments -n udacity
+```
+```
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-basic   6/6     6            6           2m32s
+ops-view      1/1     1            1           83m
+```
+
+
 3. Take a screenshot of the running pods: `kubectl get pods -n udacity`
 4. Document the image number in the `nginx-basic` deployment
    1. `kubectl describe deployment nginx-basic`
 5. Now we will initiate a basic deployment for a newer version of nginx using `basic-deployment-image-bump.yml`
    1. `kubectl delete -f basic-deployment.yml`
    2. `kubectl apply -f basic-deployment-image-bump.yml`
+
+Check process
+```
+kubectl get events -n udacity --sort-by='.metadata.creationTimestamp';
+```
+
 6. Take a screenshot of the running pods: `kubectl get pods -n udacity`
 7. Document the image number in the `nginx-basic` deployment
     1. `kubectl describe deployment nginx-basic`
@@ -45,7 +92,7 @@
 1. Ensure you have connectivity to your local kubernetes cluster
 2. Apply the `index_v1_html.yml` & `index_v2_html.yml` configmaps to deploy the service html templates.
 3. Deploy the v1 & v2 starter template and service to the cluster `canary-v1.yml`, `canary-v2.yml` & `canary-svc.yml`
-   1. you'll notice v2 has `0` replicas 
+   1. you'll notice v2 has `0` replicas
 4. Get the service cluster ip address and curl it 5 times to confirm only v1 of the application is reachable
    1. `kubectl get service canary-svc`
    2. Use an ephermeral container to access the kubernetes internal network
@@ -69,7 +116,7 @@
    ```
    function manual_verification {
      read -p "Continue deployment? (y/n) " answer
-   
+
        if [[ $answer =~ ^[Yy]$ ]] ;
        then
            echo "continuing deployment"
@@ -78,7 +125,7 @@
        fi
    }
    ```
-6. Execute the script to deploy your application. 
+6. Execute the script to deploy your application.
 7. During the first manual verification step ensure you can curl the service and get a response from both versions of the application.
    1. Then continue until all replicas of v2 are deployed
 
@@ -146,9 +193,8 @@ You may visualize your AWS EKS cluster using the helm chart `kube-ops-view`
 5. Get the service URL to view the cluster dashboard
 - `kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'`
 
-Remove this deployment using: `helm uninstall kube-ops-view`   
+Remove this deployment using: `helm uninstall kube-ops-view`
 
 ## Kubernetes Helper Libraries
 - [Kubectx](https://github.com/ahmetb/kubectx#kubectx1)
 - [kubens](https://github.com/ahmetb/kubectx#kubens1)
-
