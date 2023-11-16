@@ -1,4 +1,22 @@
-## Optional Run visual support
+## Optional Run kubernetes dashboard or visual support
+
+### kubernetes dashboard
+
+Follow https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/ to run the dashboard
+
+To create token
+
+```shell
+cd visual support
+kubectl apply -f s.yml
+kubectl apply -f r.yml
+# create long term token
+kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
+```
+
+Visit `https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/` then login with the created token
+
+### visual support
 
 ```shell
 # kubectl create namespace udacity
