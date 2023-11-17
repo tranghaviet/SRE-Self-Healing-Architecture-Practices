@@ -115,7 +115,7 @@ kubectl get events -n udacity --sort-by='.metadata.creationTimestamp';
    1. `kubectl get service canary-svc`
    2. Use an ephermeral container to access the kubernetes internal network
       1. `kubectl run debug --rm -i --tty --image nicolaka/netshoot -- /bin/bash`
-      2. `curl <service_ip`
+      2. `curl <service_ip>`
 5. Now we will initiate a canary deployment for `canary-v2` via a bash script
    1. create a bash script `canary.sh` and create a function called `canary_deploy` which will house your execution code
    3. Deploy `canary-v2.yml` in incrementally by 2 while reducing the number of `canary-v1` replicas. Pause after every deployment for manual verification
@@ -154,7 +154,7 @@ kubectl get events -n udacity --sort-by='.metadata.creationTimestamp';
 1. Log into your student AWS account and switch to region `us-east-2`
 2. Setup your local aws credentials
 3. Launch the kubernetes cluster in starter terraform code provided
-   1. `terraform init`
+   1. `terraform init -upgrade`
    2. `terraform plan`
    3. `terraform apply`
 4. Ensure you have connectivity to your aws kubernetes cluster
